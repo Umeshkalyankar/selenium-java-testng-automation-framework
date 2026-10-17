@@ -11,3 +11,9 @@ test-output/
 
 # Logs
 *.log
+
+# Configuration file containing credentials
+/src/test/resources/config.properties
+
+# Test screenshots
+/screenshots/
