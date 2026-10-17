@@ -15,9 +15,7 @@ public class SendMoneyTestClass extends BaseClass{
 	@Test
 	public void TC_VerifySendMoneyFunctionality() {
 		// Login
-		SignInPageClass_obj.enterEmailAddress("priya.tester@ttabank.in");
-		SignInPageClass_obj.enterPassword("Test@1234");
-		SignInPageClass_obj.clickOnSignInSecurely();
+		loginToApplication();
 		
 		// Navigate to Send Money
 		DashboardPageClass_obj.clickOnSendMoneyOption();

@@ -4,7 +4,7 @@ import org.testng.Assert;
 import org.testng.annotations.Test;
 
 import baselayer.BaseClass;
-import utilitieslayer.ScreenshotUtility;
+import utilitieslayer.ConfigReader;
 
 public class SignInTestClass extends BaseClass{
 	
@@ -15,9 +15,14 @@ public class SignInTestClass extends BaseClass{
 	
 	@Test
 	public void TC_02VerifySignInWithValidCredentials() {
-		SignInPageClass_obj.enterEmailAddress("pri@ttabank.in");
-		SignInPageClass_obj.enterPassword("Test@1234");
-		SignInPageClass_obj.clickOnSignInSecurely();
+		// Read credentials from config.properties
+        String email = ConfigReader.getProperty("email");
+        String password = ConfigReader.getProperty("password");
+
+        // Perform login
+        SignInPageClass_obj.enterEmailAddress(email);
+        SignInPageClass_obj.enterPassword(password);
+        SignInPageClass_obj.clickOnSignInSecurely();
 		
 		Assert.assertTrue(
 		        DashboardPageClass_obj.isDashboardDisplayed(),

@@ -10,9 +10,7 @@ public class ReceiveMoneyTestClass extends BaseClass{
 	public void TC_VerifyReceiveMoneyFunctionality() throws InterruptedException {
 		
 		// Login
-		SignInPageClass_obj.enterEmailAddress("priya.tester@ttabank.in");
-		SignInPageClass_obj.enterPassword("Test@1234");
-		SignInPageClass_obj.clickOnSignInSecurely();
+		loginToApplication();
 		
 		 // Navigate to Receive Money
 		DashboardPageClass_obj.clickOnReceiveMoneyOption();

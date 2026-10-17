@@ -14,9 +14,6 @@ public class ScreenshotUtility extends BaseClass {
     public static void captureScreenshot( String screenshotName) {
 
         try {
-//            // Create the screenshots folder
-//            Path screenshotDirectory = Paths.get("screenshots");
-//            Files.createDirectories(screenshotDirectory);
 
         	TakesScreenshot ts = ((TakesScreenshot) driver);
         	

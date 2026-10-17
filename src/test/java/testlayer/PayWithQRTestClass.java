@@ -9,9 +9,7 @@ public class PayWithQRTestClass extends BaseClass {
 	@Test()
 	public void TC_VerifyPayWithQRFunctionality() {
 		
-		SignInPageClass_obj.enterEmailAddress("priya.tester@ttabank.in");
-		SignInPageClass_obj.enterPassword("Test@1234");
-		SignInPageClass_obj.clickOnSignInSecurely();
+		loginToApplication();
 		
 		DashboardPageClass_obj.clickOnPayWithQrOption();
 		
