@@ -19,6 +19,8 @@ public class ListenerSetup implements ITestListener {
 	@Override
 	public void onTestFailure(ITestResult result) {
 		System.out.println("Execution failed :- " + result.getName());
+		ScreenshotUtility.captureScreenshot(result.getName());
+		
 	}
 
 	@Override

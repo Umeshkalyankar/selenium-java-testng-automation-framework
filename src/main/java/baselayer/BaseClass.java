@@ -19,7 +19,7 @@ import pagelayer.TransactionsPageClass;
 
 public class BaseClass {
 	
-	public  WebDriver driver;
+	public  static WebDriver driver;
 	public SignInPageClass SignInPageClass_obj;
 	public SignUpPageClass SignUpPageClass_obj;
 	public DashboardPageClass DashboardPageClass_obj;
