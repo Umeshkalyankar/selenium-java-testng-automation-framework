@@ -10,10 +10,12 @@ import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 
 import pagelayer.DashboardPageClass;
+import pagelayer.PayWithQRPageClass;
 import pagelayer.ReceiveMoneyPageClass;
 import pagelayer.SendMoneyPageClass;
 import pagelayer.SignInPageClass;
 import pagelayer.SignUpPageClass;
+import pagelayer.TransactionsPageClass;
 
 public class BaseClass {
 	
@@ -23,7 +25,8 @@ public class BaseClass {
 	public DashboardPageClass DashboardPageClass_obj;
 	public SendMoneyPageClass SendMoneyPageClass_obj;
 	public ReceiveMoneyPageClass ReceiveMoneyPageClass_obj;
-	
+	public PayWithQRPageClass PayWithQRPageClass_obj;
+	public TransactionsPageClass TransactionsPageClass_obj;
 	@BeforeMethod
 	public void setup() {
 		String browser_name = "Chrome";
@@ -52,6 +55,8 @@ public class BaseClass {
 		DashboardPageClass_obj = new DashboardPageClass(driver);
 		SendMoneyPageClass_obj = new SendMoneyPageClass(driver);
 		ReceiveMoneyPageClass_obj = new ReceiveMoneyPageClass(driver);
+		PayWithQRPageClass_obj = new PayWithQRPageClass(driver);
+		TransactionsPageClass_obj = new TransactionsPageClass(driver);
 	}
 	
 	@AfterMethod

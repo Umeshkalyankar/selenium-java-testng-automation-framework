@@ -23,6 +23,13 @@ private WebDriver driver;
 	@FindBy(xpath="//a[@data-testid='nav-receive']")
 	private WebElement receiveMoneyMenuOption;
 	
+	@FindBy(xpath="//a[@data-testid='nav-pay-qr']")
+	private WebElement payWithQrMenuOption;
+	
+	@FindBy(xpath="//a[@data-testid='nav-transactions']")
+	private WebElement TransactionsMenuOption;
+
+	
 	@FindBy(xpath="//button[@data-testid='nav-logout']")
 	private WebElement logoutButton;
 	
@@ -36,8 +43,19 @@ private WebDriver driver;
 		receiveMoneyMenuOption.click();
 	}
 	
+	public void clickOnPayWithQrOption() {
+		payWithQrMenuOption.click();
+	}
+	
+	public void clickOnTransactionsOption() {
+		TransactionsMenuOption.click();	}
+	
 	public void clickOnLogout() {
 		logoutButton.click();
+	}
+	
+	public boolean isDashboardDisplayed() {
+	    return logoutButton.isDisplayed();
 	}
 
 }
