@@ -34,4 +34,4 @@ jobs:
         uses: browser-actions/setup-chrome@v1
 
       - name: Run Smoke Tests
-        run: mvn clean test -Dsurefire.suiteXmlFiles=testng-smoke.xml
+        run: mvn clean test -DsuiteXmlFile=testng-smoke.xml
