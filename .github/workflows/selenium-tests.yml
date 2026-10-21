@@ -27,7 +27,7 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Set up Java 17
-        uses: actions/setup-java@v4
+        uses: actions/setup-java@v5
         with:
           distribution: temurin
           java-version: "17"
@@ -38,3 +38,14 @@ jobs:
 
       - name: Run Smoke Tests
         run: mvn clean test -DsuiteXmlFile=testng-smoke.xml
+
+      - name: Upload Test Screenshots and Reports
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: selenium-test-results
+          path: |
+            Screenshot/
+            target/surefire-reports/
+          if-no-files-found: warn
+          retention-days: 7
