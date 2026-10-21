@@ -1,12 +1,13 @@
 package pagelayer;
 
+import java.time.Duration;
+
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
-import java.time.Duration;
-import org.openqa.selenium.support.ui.WebDriverWait;
 import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
 
 public class DashboardPageClass {
 	
@@ -61,13 +62,21 @@ private WebDriver driver;
 	    try {
 	        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
 
-	        return wait.until(
-	            ExpectedConditions.visibilityOf(logoutButton)
-	        ).isDisplayed();
+	        wait.until(ExpectedConditions.visibilityOf(logoutButton));
+
+	        System.out.println("Current URL: " + driver.getCurrentUrl());
+	        System.out.println("Logout button displayed: " + logoutButton.isDisplayed());
+
+	        return true;
 
 	    } catch (Exception e) {
+	        System.out.println("Dashboard verification failed.");
+	        System.out.println("Current URL: " + driver.getCurrentUrl());
+	        System.out.println("Failure details: " + e.getMessage());
+
 	        return false;
 	    }
 	}
+	}
 
-}
+
