@@ -18,6 +18,9 @@ jobs:
       APP_PASSWORD: ${{ secrets.APP_PASSWORD }}
       INVALID_EMAIL: wronguser@ttabank.in
       INVALID_PASSWORD: ${{ secrets.INVALID_PASSWORD }}
+      SIGNUP_NAME: James Bond
+      SIGNUP_MOBILE: "9437454545"
+      SIGNUP_PASSWORD: ${{ secrets.SIGNUP_PASSWORD }}
 
     steps:
       - name: Checkout repository
