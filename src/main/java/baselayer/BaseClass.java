@@ -20,14 +20,15 @@ import pagelayer.TransactionsPageClass;
 import utilitieslayer.ConfigReader;
 
 public class BaseClass {
-// Separate WebDriver for each execution thread
+
+	// Separate WebDriver for each execution thread
 	private static final ThreadLocal<WebDriver> driverThread = new ThreadLocal<>();
 
 	public static WebDriver getDriver() {
 		return driverThread.get();
 	}
 
-// Page object declarations
+	// Page object declarations
 	public SignInPageClass SignInPageClass_obj;
 	public SignUpPageClass SignUpPageClass_obj;
 	public DashboardPageClass DashboardPageClass_obj;
@@ -36,7 +37,7 @@ public class BaseClass {
 	public PayWithQRPageClass PayWithQRPageClass_obj;
 	public TransactionsPageClass TransactionsPageClass_obj;
 
-// Browser setup
+	// Browser setup
 	@BeforeMethod(alwaysRun = true)
 	public void setup() {
 
@@ -53,21 +54,28 @@ public class BaseClass {
 				options.addArguments("--headless=new");
 				options.addArguments("--no-sandbox");
 				options.addArguments("--disable-dev-shm-usage");
+				options.addArguments("--window-size=1920,1080");
 			}
 
 			driver = new ChromeDriver(options);
 
 		} else if (browserName.equalsIgnoreCase("Firefox")) {
+
 			driver = new FirefoxDriver();
+
 		} else if (browserName.equalsIgnoreCase("Edge")) {
+
 			driver = new EdgeDriver();
+
 		} else {
+
 			throw new IllegalArgumentException("Unsupported browser: " + browserName);
 		}
 
 		driverThread.set(driver);
 
 		driver.manage().window().maximize();
+
 		driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(20));
 
 		driver.get(ConfigReader.getProperty("url"));
@@ -82,7 +90,7 @@ public class BaseClass {
 		TransactionsPageClass_obj = new TransactionsPageClass(driver);
 	}
 
-// Reusable login method
+	// Reusable login method
 	public void loginToApplication() {
 
 		String email = ConfigReader.getProperty("email");
@@ -93,19 +101,21 @@ public class BaseClass {
 		SignInPageClass_obj.clickOnSignInSecurely();
 	}
 
-// Browser teardown
+	// Browser teardown
 	@AfterMethod(alwaysRun = true)
 	public void teardown() {
 
 		WebDriver driver = getDriver();
 
 		try {
+
 			if (driver != null) {
 				driver.quit();
 			}
+
 		} finally {
+
 			driverThread.remove();
 		}
 	}
-
 }
