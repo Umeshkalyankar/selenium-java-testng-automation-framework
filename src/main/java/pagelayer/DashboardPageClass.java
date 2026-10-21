@@ -1,9 +1,13 @@
 package pagelayer;
 
+import java.time.Duration;
+
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
 
 public class DashboardPageClass {
 
@@ -55,14 +59,20 @@ public class DashboardPageClass {
 	}
 
 	public boolean isDashboardDisplayed() {
-		System.out.println("Current URL: " + driver.getCurrentUrl());
-		System.out.println("Page title: " + driver.getTitle());
-		System.out.println("Logout button elements found: "
-				+ driver.findElements(org.openqa.selenium.By.xpath("//button[@data-testid='nav-logout']")).size());
-		System.out.println("Logout test-id elements found: "
-				+ driver.findElements(org.openqa.selenium.By.cssSelector("[data-testid='nav-logout']")).size());
-		System.out
-				.println("Dashboard page source contains nav-logout: " + driver.getPageSource().contains("nav-logout"));
-		return !driver.findElements(org.openqa.selenium.By.cssSelector("[data-testid='nav-logout']")).isEmpty();
+		try {
+			WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+			wait.until(ExpectedConditions.urlContains("tta-bank"));
+			wait.until(ExpectedConditions.visibilityOf(logoutButton));
+			System.out.println("Dashboard URL: " + driver.getCurrentUrl());
+			System.out.println("Page title: " + driver.getTitle());
+			System.out.println("Logout button is visible.");
+			return true;
+		} catch (Exception e) {
+			System.out.println("Dashboard verification failed.");
+			System.out.println("Current URL: " + driver.getCurrentUrl());
+			System.out.println("Page title: " + driver.getTitle());
+			System.out.println("Reason: " + e.getMessage());
+			return false;
+		}
 	}
 }
