@@ -6,28 +6,45 @@ import java.util.Properties;
 
 public class ConfigReader {
 
-    private static final Properties properties = new Properties();
+	private static final Properties properties = new Properties();
 
-    static {
-        try (FileInputStream file = new FileInputStream(
-                "src/test/resources/config.properties")) {
+	static {
+		try (FileInputStream file = new FileInputStream("src/test/resources/config.properties")) {
 
-            properties.load(file);
+			properties.load(file);
 
-        } catch (IOException e) {
-            throw new RuntimeException(
-                    "Unable to load config.properties", e);
-        }
-    }
+		} catch (IOException e) {
+			// Local configuration file is unavailable in CI.
+		}
 
-    public static String getProperty(String key) {
-        String value = properties.getProperty(key);
+		// Environment variables override file values when provided.
+		loadFromEnvironment("browser", "BROWSER");
+		loadFromEnvironment("url", "APP_URL");
+		loadFromEnvironment("email", "APP_EMAIL");
+		loadFromEnvironment("password", "APP_PASSWORD");
+		loadFromEnvironment("invalidEmail", "INVALID_EMAIL");
+		loadFromEnvironment("invalidPassword", "INVALID_PASSWORD");
+		loadFromEnvironment("signupName", "SIGNUP_NAME");
+		loadFromEnvironment("signupMobile", "SIGNUP_MOBILE");
+		loadFromEnvironment("signupPassword", "SIGNUP_PASSWORD");
+	}
 
-        if (value == null || value.isBlank()) {
-            throw new RuntimeException(
-                    "Missing configuration property: " + key);
-        }
+	private static void loadFromEnvironment(String propertyName, String environmentName) {
 
-        return value.trim();
-    }
+		String value = System.getenv(environmentName);
+
+		if (value != null && !value.isBlank()) {
+			properties.setProperty(propertyName, value.trim());
+		}
+	}
+
+	public static String getProperty(String key) {
+		String value = properties.getProperty(key);
+
+		if (value == null || value.isBlank()) {
+			throw new RuntimeException("Missing configuration property: " + key);
+		}
+
+		return value.trim();
+	}
 }

@@ -2,14 +2,22 @@ name: Selenium Automation Tests
 
 on:
   push:
-    branches: [ main ]
+    branches: [main]
   pull_request:
-    branches: [ main ]
+    branches: [main]
   workflow_dispatch:
 
 jobs:
   selenium-tests:
     runs-on: ubuntu-latest
+
+    env:
+      BROWSER: Chrome
+      APP_URL: https://app.thetestingacademy.com/playwright/tta-bank/
+      APP_EMAIL: ${{ secrets.APP_EMAIL }}
+      APP_PASSWORD: ${{ secrets.APP_PASSWORD }}
+      INVALID_EMAIL: wronguser@ttabank.in
+      INVALID_PASSWORD: ${{ secrets.INVALID_PASSWORD }}
 
     steps:
       - name: Checkout repository
@@ -19,7 +27,7 @@ jobs:
         uses: actions/setup-java@v4
         with:
           distribution: temurin
-          java-version: '17'
+          java-version: "17"
           cache: maven
 
       - name: Install Chrome
