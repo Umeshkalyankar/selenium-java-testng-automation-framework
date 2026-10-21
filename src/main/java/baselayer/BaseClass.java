@@ -33,8 +33,9 @@ public class BaseClass {
 	public TransactionsPageClass TransactionsPageClass_obj;
 	
 	 // Browser setup
-	@BeforeMethod
+	@BeforeMethod(alwaysRun = true)
 	public void setup() {
+		System.out.println("========== BaseClass setup started ==========");
 		String browser_name = ConfigReader.getProperty("browser");
 		
 		if(browser_name.equalsIgnoreCase("Chrome")) {
@@ -78,7 +79,7 @@ public class BaseClass {
 	    SignInPageClass_obj.clickOnSignInSecurely();
 	}
 	
-	@AfterMethod
+	@AfterMethod(alwaysRun = true)
 	public void teardown() {
 		if (driver != null) {
             driver.quit();

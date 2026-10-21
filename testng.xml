@@ -1,14 +1,25 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE suite SYSTEM "https://testng.org/testng-1.0.dtd">
-<suite name="Suite">
-<listeners>
-        <listener class-name="utilitieslayer.ListenerSetup"/>
-    </listeners>
 
-  <test thread-count="5" name="Test">
+<!DOCTYPE suite SYSTEM "https://testng.org/testng-1.0.dtd">
+
+<suite name="TTA Bank Automation Suite">
+
+<listeners>
+    <listener class-name="utilitieslayer.ListenerSetup"/>
+</listeners>
+
+<test name="All Tests">
+
     <classes>
-      <class name="testlayer.SignInTestClass"/>
-      <class name="testlayer.SignUpTestClass"/>
+        <class name="testlayer.SignUpTestClass"/>
+        <class name="testlayer.SignInTestClass"/>
+        <class name="testlayer.DashboardTestClass"/>
+        <class name="testlayer.SendMoneyTestClass"/>
+        <class name="testlayer.ReceiveMoneyTestClass"/>
+        <class name="testlayer.PayWithQRTestClass"/>
+        <class name="testlayer.TransactionsTestClass"/>
     </classes>
-  </test> <!-- Test -->
-</suite> <!-- Suite -->
+
+</test>
+
+</suite>

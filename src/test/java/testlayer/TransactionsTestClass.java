@@ -6,7 +6,7 @@ import baselayer.BaseClass;
 
 public class TransactionsTestClass extends BaseClass{
 	
-	@Test
+	@Test(groups = {"regression"})
 	public void TC_VerifyPartyTransactions() {
 		// login
 		loginToApplication();

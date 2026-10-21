@@ -46,6 +46,10 @@ public class SendMoneyPageClass {
 	private WebElement successSnackbar;
 	
 	// Actions
+	public boolean isSendMoneyPageDisplayed() {
+	    return beneficiaryOption.isDisplayed();
+	}
+	
 	public void clickOnBeneficiaryName() {
 		beneficiaryOption.click();
 	}

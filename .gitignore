@@ -6,7 +6,7 @@ target/
 .project
 .settings/
 
-# Test output
+# Test output and reports
 test-output/
 
 # Logs
@@ -16,4 +16,9 @@ test-output/
 /src/test/resources/config.properties
 
 # Test screenshots
+/Screenshot/
 /screenshots/
+
+# Allure generated files
+/.allure/
+/allure-results/

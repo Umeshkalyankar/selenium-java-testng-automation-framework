@@ -4,25 +4,34 @@ import org.testng.Assert;
 import org.testng.annotations.Test;
 
 import baselayer.BaseClass;
+import utilitieslayer.ConfigReader;
 
 public class SignUpTestClass extends BaseClass {
-	
-	@Test
-	public void TC_01VerifySuccessfulSignup() throws InterruptedException {
-		SignInPageClass_obj.clickOnOpenAnAccountLink();
-		
-		SignUpPageClass_obj.enterFullName("James Bond");
-		SignUpPageClass_obj.enterEmailAddress("jb@gmail.com");
-		SignUpPageClass_obj.enterMobileNumber("9437454545");
-		SignUpPageClass_obj.enterPassword("Test@1234");
-		SignUpPageClass_obj.enterConfirmPassword("Test@1234");
-		SignUpPageClass_obj.clickOnOpenMyAccount();
-		//String actual_title = driver.getTitle();
-		
-//		String expected_title = "TTA Bank - Dashboard";
-//		Thread.sleep(9000);
-//		Assert.assertEquals(actual_title, expected_title);
-		
-	}
 
+    @Test(groups = {"smoke"})
+    public void TC_01verifySignUp() {
+
+        SignInPageClass_obj.clickOnOpenAnAccountLink();
+
+        SignUpPageClass_obj.enterFullName(
+                ConfigReader.getProperty("signupName"));
+
+        // Generate a unique email address for every test run
+        String email = "jb" + System.currentTimeMillis() + "@gmail.com";
+        SignUpPageClass_obj.enterEmailAddress(email);
+
+        SignUpPageClass_obj.enterMobileNumber(
+                ConfigReader.getProperty("signupMobile"));
+
+        String signupPassword = ConfigReader.getProperty("signupPassword");
+
+        SignUpPageClass_obj.enterPassword(signupPassword);
+        SignUpPageClass_obj.enterConfirmPassword(signupPassword);
+
+        SignUpPageClass_obj.clickOnOpenMyAccount();
+
+        Assert.assertTrue(
+                DashboardPageClass_obj.isDashboardDisplayed(),
+                "Signup failed: Dashboard was not displayed after registration");
+    }
 }

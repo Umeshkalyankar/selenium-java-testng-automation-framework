@@ -1,58 +1,75 @@
 package testlayer;
 
-import java.time.Duration;
-
-import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
 import baselayer.BaseClass;
-import pagelayer.SendMoneyPageClass;
 
-public class SendMoneyTestClass extends BaseClass{
+public class SendMoneyTestClass extends BaseClass {
 
-	@Test
-	public void TC_VerifySendMoneyFunctionality() {
-		// Login
-		loginToApplication();
-		
-		// Navigate to Send Money
-		DashboardPageClass_obj.clickOnSendMoneyOption();
-		
-		//Send Money
-		SendMoneyPageClass_obj.clickOnBeneficiaryName();
-		SendMoneyPageClass_obj.enterThePaymentAmount("900");
-		SendMoneyPageClass_obj.selectCategory("Travel");
-		SendMoneyPageClass_obj.enterNoteMsg("Testing Send Money Feature");
-		SendMoneyPageClass_obj.clickOnReviewTransferButton();
-		SendMoneyPageClass_obj.confirmTransferPopup();
-		
-		String message = SendMoneyPageClass_obj.getSuccessMessage();
-		Assert.assertTrue(message.contains("Sent successfully."));
+@Test(groups = {"regression"})
+public void TC_VerifySendMoneyFunctionality() {
 
-	}
-	
-	@Test
-	public void TC_VerifyValidPaymentAmount() {
-		// Login
-				SignInPageClass_obj.enterEmailAddress("priya.tester@ttabank.in");
-				SignInPageClass_obj.enterPassword("Test@1234");
-				SignInPageClass_obj.clickOnSignInSecurely();
-				
-				// Navigate to Send Money
-				DashboardPageClass_obj.clickOnSendMoneyOption();
-				
-				//Send Money
-				SendMoneyPageClass_obj.clickOnBeneficiaryName();
-				SendMoneyPageClass_obj.enterThePaymentAmount("0");
-				SendMoneyPageClass_obj.selectCategory("Travel");
-				SendMoneyPageClass_obj.clickOnReviewTransferButton();
-				
-				String actualMsg = SendMoneyPageClass_obj.getAmountErrorMessage();
-//				String expectedMsg = "Enter an amount greater than zero";
-//				Assert.assertEquals(actualMsg, expectedMsg);
-				
-				Assert.assertTrue(actualMsg.contains("Enter an amount greater than zero"));
-	}
+    // Login
+    loginToApplication();
+
+    // Validate successful login
+    Assert.assertTrue(
+        DashboardPageClass_obj.isDashboardDisplayed(),
+        "Login failed: Dashboard was not displayed"
+    );
+
+    // Navigate to Send Money
+    DashboardPageClass_obj.clickOnSendMoneyOption();
+
+    // Send Money
+    SendMoneyPageClass_obj.clickOnBeneficiaryName();
+    SendMoneyPageClass_obj.enterThePaymentAmount("900");
+    SendMoneyPageClass_obj.selectCategory("Travel");
+    SendMoneyPageClass_obj.enterNoteMsg("Testing Send Money Feature");
+    SendMoneyPageClass_obj.clickOnReviewTransferButton();
+    SendMoneyPageClass_obj.confirmTransferPopup();
+
+    // Validate successful money transfer
+    String actualMessage = SendMoneyPageClass_obj.getSuccessMessage();
+
+    Assert.assertTrue(
+        actualMessage.contains("Sent successfully."),
+        "Money transfer failed. Actual message: " + actualMessage
+    );
+}
+
+@Test(groups = {"regression"})
+public void TC_VerifyInvalidPaymentAmount() {
+
+    // Login
+    loginToApplication();
+
+    // Validate successful login
+    Assert.assertTrue(
+        DashboardPageClass_obj.isDashboardDisplayed(),
+        "Login failed: Dashboard was not displayed"
+    );
+
+    // Navigate to Send Money
+    DashboardPageClass_obj.clickOnSendMoneyOption();
+
+    // Enter invalid payment amount
+    SendMoneyPageClass_obj.clickOnBeneficiaryName();
+    SendMoneyPageClass_obj.enterThePaymentAmount("0");
+    SendMoneyPageClass_obj.selectCategory("Travel");
+    SendMoneyPageClass_obj.clickOnReviewTransferButton();
+
+    // Validate amount error message
+    String actualMessage =
+            SendMoneyPageClass_obj.getAmountErrorMessage();
+
+    Assert.assertTrue(
+        actualMessage.contains("Enter an amount greater than zero"),
+        "Incorrect validation message for zero payment amount. Actual message: "
+                + actualMessage
+    );
+}
+
+
 }

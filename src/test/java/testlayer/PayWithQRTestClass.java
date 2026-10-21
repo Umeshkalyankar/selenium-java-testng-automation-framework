@@ -6,7 +6,7 @@ import baselayer.BaseClass;
 
 public class PayWithQRTestClass extends BaseClass {
 	
-	@Test()
+	@Test(groups = {"regression"})
 	public void TC_VerifyPayWithQRFunctionality() {
 		
 		loginToApplication();
