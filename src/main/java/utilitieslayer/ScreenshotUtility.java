@@ -12,48 +12,43 @@ import org.openqa.selenium.io.FileHandler;
 
 public class ScreenshotUtility {
 
-public static String captureScreenshot(WebDriver driver, String screenshotName) {
+	public static String captureScreenshot(WebDriver driver, String screenshotName) {
 
-    if (driver == null) {
-        System.out.println("Screenshot not captured: WebDriver is null.");
-        return null;
-    }
+		if (driver == null) {
+			System.out.println("Screenshot not captured: WebDriver is null.");
+			return null;
+		}
 
-    try {
-        // Generate a unique timestamp
-        String timestamp = new SimpleDateFormat("yyyyMMdd_HHmmss")
-                .format(new Date());
+		try {
+			// Generate a timestamp including milliseconds
+			String timestamp = new SimpleDateFormat("yyyyMMdd_HHmmss_SSS").format(new Date());
 
-        // Create the screenshot directory if it doesn't exist
-        File screenshotDirectory = new File("Screenshot");
+			// Create the screenshot directory if it doesn't exist
+			File screenshotDirectory = new File("Screenshot");
 
-        if (!screenshotDirectory.exists()) {
-            screenshotDirectory.mkdirs();
-        }
+			if (!screenshotDirectory.exists()) {
+				screenshotDirectory.mkdirs();
+			}
 
-        // Capture the screenshot
-        TakesScreenshot ts = (TakesScreenshot) driver;
-        File sourceFile = ts.getScreenshotAs(OutputType.FILE);
+			// Capture the screenshot
+			TakesScreenshot ts = (TakesScreenshot) driver;
+			File sourceFile = ts.getScreenshotAs(OutputType.FILE);
 
-        // Create the destination file
-        File destinationFile = new File(
-                screenshotDirectory,
-                screenshotName + "_" + timestamp + ".png"
-        );
+			// Create the destination file
+			File destinationFile = new File(screenshotDirectory, screenshotName + "_" + timestamp + ".png");
 
-        // Save the screenshot
-        FileHandler.copy(sourceFile, destinationFile);
+			// Save the screenshot
+			FileHandler.copy(sourceFile, destinationFile);
 
-        System.out.println("Screenshot saved: "
-                + destinationFile.getAbsolutePath());
+			System.out.println("Screenshot saved: " + destinationFile.getAbsolutePath());
 
-        // Return the absolute path for Extent Reports
-        return destinationFile.getAbsolutePath();
+			// Return the absolute path for Extent Reports
+			return destinationFile.getAbsolutePath();
 
-    } catch (IOException e) {
-        System.out.println("Unable to save screenshot: " + e.getMessage());
-        return null;
-    }
-}
+		} catch (IOException e) {
+			System.out.println("Unable to save screenshot: " + e.getMessage());
+			return null;
+		}
+	}
 
 }

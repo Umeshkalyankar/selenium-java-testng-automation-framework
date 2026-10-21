@@ -29,7 +29,9 @@ public class ListenerSetup implements ITestListener {
 
 		System.out.println("Execution passed :- " + result.getName());
 
-		extentTest.get().pass("Test passed successfully");
+		if (extentTest.get() != null) {
+			extentTest.get().pass("Test passed successfully");
+		}
 	}
 
 	@Override
@@ -37,33 +39,26 @@ public class ListenerSetup implements ITestListener {
 
 		System.out.println("Execution failed :- " + result.getName());
 
-		if (result.getThrowable() != null) {
+		if (extentTest.get() != null && result.getThrowable() != null) {
 			System.out.println("Failure reason :- " + result.getThrowable().getMessage());
 
 			extentTest.get().fail(result.getThrowable());
 		}
 
-		Object testInstance = result.getInstance();
+		WebDriver driver = BaseClass.getDriver();
 
-		if (testInstance instanceof BaseClass) {
+		if (driver != null) {
 
-			BaseClass baseClass = (BaseClass) testInstance;
-			WebDriver driver = baseClass.driver;
+			String screenshotPath = ScreenshotUtility.captureScreenshot(driver, result.getName());
 
-			if (driver != null) {
-
-				String screenshotPath = ScreenshotUtility.captureScreenshot(driver, result.getName());
-
-				if (screenshotPath != null) {
-					try {
-						extentTest.get().addScreenCaptureFromPath(screenshotPath);
-					} catch (Exception e) {
-						System.out.println("Unable to attach screenshot to Extent Report: " + e.getMessage());
-					}
+			if (screenshotPath != null && extentTest.get() != null) {
+				try {
+					extentTest.get().addScreenCaptureFromPath(screenshotPath);
+				} catch (Exception e) {
+					System.out.println("Unable to attach screenshot to Extent Report: " + e.getMessage());
 				}
 			}
 		}
-
 	}
 
 	@Override
@@ -71,7 +66,9 @@ public class ListenerSetup implements ITestListener {
 
 		System.out.println("Execution skipped :- " + result.getName());
 
-		extentTest.get().skip("Test was skipped");
+		if (extentTest.get() != null) {
+			extentTest.get().skip("Test was skipped");
+		}
 	}
 
 	@Override

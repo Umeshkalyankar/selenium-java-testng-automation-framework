@@ -19,11 +19,14 @@ import pagelayer.TransactionsPageClass;
 import utilitieslayer.ConfigReader;
 
 public class BaseClass {
-	
-	// WebDriver declaration
-	public  static WebDriver driver;
-	
-	// Page object declarations
+// Separate WebDriver for each execution thread
+	private static final ThreadLocal<WebDriver> driverThread = new ThreadLocal<>();
+
+	public static WebDriver getDriver() {
+		return driverThread.get();
+	}
+
+// Page object declarations
 	public SignInPageClass SignInPageClass_obj;
 	public SignUpPageClass SignUpPageClass_obj;
 	public DashboardPageClass DashboardPageClass_obj;
@@ -31,34 +34,34 @@ public class BaseClass {
 	public ReceiveMoneyPageClass ReceiveMoneyPageClass_obj;
 	public PayWithQRPageClass PayWithQRPageClass_obj;
 	public TransactionsPageClass TransactionsPageClass_obj;
-	
-	 // Browser setup
+
+// Browser setup
 	@BeforeMethod(alwaysRun = true)
 	public void setup() {
+
 		System.out.println("========== BaseClass setup started ==========");
-		String browser_name = ConfigReader.getProperty("browser");
-		
-		if(browser_name.equalsIgnoreCase("Chrome")) {
+
+		String browserName = ConfigReader.getProperty("browser");
+		WebDriver driver;
+
+		if (browserName.equalsIgnoreCase("Chrome")) {
 			driver = new ChromeDriver();
-		}
-		else if(browser_name.equalsIgnoreCase("Firefox")) {
+		} else if (browserName.equalsIgnoreCase("Firefox")) {
 			driver = new FirefoxDriver();
-		}
-		else if(browser_name.equalsIgnoreCase("Edge")) {
+		} else if (browserName.equalsIgnoreCase("Edge")) {
 			driver = new EdgeDriver();
+		} else {
+			throw new IllegalArgumentException("Unsupported browser: " + browserName);
 		}
-		else {
-			System.out.println("Provide valid browser name");
-		}
-		
-		// Browser configuration
+
+		driverThread.set(driver);
+
 		driver.manage().window().maximize();
 		driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(20));
-		
-		// Open application
+
 		driver.get(ConfigReader.getProperty("url"));
-		
-		// Initialize page objects
+
+		// Initialize page objects using this thread's driver
 		SignInPageClass_obj = new SignInPageClass(driver);
 		SignUpPageClass_obj = new SignUpPageClass(driver);
 		DashboardPageClass_obj = new DashboardPageClass(driver);
@@ -66,24 +69,32 @@ public class BaseClass {
 		ReceiveMoneyPageClass_obj = new ReceiveMoneyPageClass(driver);
 		PayWithQRPageClass_obj = new PayWithQRPageClass(driver);
 		TransactionsPageClass_obj = new TransactionsPageClass(driver);
-		
 	}
-	// Reusable login method
+
+// Reusable login method
 	public void loginToApplication() {
 
-	    String email = ConfigReader.getProperty("email");
-	    String password = ConfigReader.getProperty("password");
+		String email = ConfigReader.getProperty("email");
+		String password = ConfigReader.getProperty("password");
 
-	    SignInPageClass_obj.enterEmailAddress(email);
-	    SignInPageClass_obj.enterPassword(password);
-	    SignInPageClass_obj.clickOnSignInSecurely();
+		SignInPageClass_obj.enterEmailAddress(email);
+		SignInPageClass_obj.enterPassword(password);
+		SignInPageClass_obj.clickOnSignInSecurely();
 	}
-	
+
+// Browser teardown
 	@AfterMethod(alwaysRun = true)
 	public void teardown() {
-		if (driver != null) {
-            driver.quit();
-        }
+
+		WebDriver driver = getDriver();
+
+		try {
+			if (driver != null) {
+				driver.quit();
+			}
+		} finally {
+			driverThread.remove();
+		}
 	}
 
 }

@@ -1,32 +1,32 @@
 <?xml version="1.0" encoding="UTF-8"?>
-
 <!DOCTYPE suite SYSTEM "https://testng.org/testng-1.0.dtd">
 
-<suite name="TTA Bank Smoke Suite">
+<suite name="TTA Bank Smoke Suite"
+	parallel="classes"
+	thread-count="2">
 
-<listeners>
-    <listener class-name="utilitieslayer.ListenerSetup"/>
-</listeners>
+	<listeners>
+		<listener class-name="utilitieslayer.ListenerSetup" />
+	</listeners>
 
-<test name="Smoke Tests">
+	<test name="Smoke Tests">
 
-    <groups>
-        <run>
-            <include name="smoke"/>
-        </run>
-    </groups>
+		<groups>
+			<run>
+				<include name="smoke" />
+			</run>
+		</groups>
 
-    <classes>
-        <class name="testlayer.SignUpTestClass"/>
-        <class name="testlayer.SignInTestClass"/>
-        <class name="testlayer.DashboardTestClass"/>
-        <class name="testlayer.SendMoneyTestClass"/>
-        <class name="testlayer.ReceiveMoneyTestClass"/>
-        <class name="testlayer.PayWithQRTestClass"/>
-        <class name="testlayer.TransactionsTestClass"/>
-    </classes>
+		<classes>
+			<class name="testlayer.SignUpTestClass" />
+			<class name="testlayer.SignInTestClass" />
+			<class name="testlayer.DashboardTestClass" />
+			<class name="testlayer.SendMoneyTestClass" />
+			<class name="testlayer.ReceiveMoneyTestClass" />
+			<class name="testlayer.PayWithQRTestClass" />
+			<class name="testlayer.TransactionsTestClass" />
+		</classes>
 
-</test>
-
+	</test>
 
 </suite>
