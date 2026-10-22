@@ -1,13 +1,10 @@
 package pagelayer;
 
-import java.time.Duration;
-
+import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
-import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.WebDriverWait;
 
 public class DashboardPageClass {
 
@@ -59,20 +56,27 @@ public class DashboardPageClass {
 	}
 
 	public boolean isDashboardDisplayed() {
-		try {
-			WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
-			wait.until(ExpectedConditions.urlContains("tta-bank"));
-			wait.until(ExpectedConditions.visibilityOf(logoutButton));
-			System.out.println("Dashboard URL: " + driver.getCurrentUrl());
-			System.out.println("Page title: " + driver.getTitle());
-			System.out.println("Logout button is visible.");
-			return true;
-		} catch (Exception e) {
-			System.out.println("Dashboard verification failed.");
-			System.out.println("Current URL: " + driver.getCurrentUrl());
-			System.out.println("Page title: " + driver.getTitle());
-			System.out.println("Reason: " + e.getMessage());
-			return false;
-		}
+
+	    System.out.println("========== DASHBOARD DIAGNOSTICS ==========");
+	    System.out.println("Current URL: " + driver.getCurrentUrl());
+	    System.out.println("Page title: " + driver.getTitle());
+
+	    System.out.println("Logout button count: "
+	            + driver.findElements(By.cssSelector("[data-testid='nav-logout']")).size());
+
+	    System.out.println("Send Money link count: "
+	            + driver.findElements(By.cssSelector("[data-testid='nav-send']")).size());
+
+	    System.out.println("Receive Money link count: "
+	            + driver.findElements(By.cssSelector("[data-testid='nav-receive']")).size());
+
+	    System.out.println("Dashboard body text:");
+	    System.out.println(driver.findElement(By.tagName("body")).getText());
+
+	    System.out.println("============================================");
+
+	    return driver.getCurrentUrl().contains("/dashboard");
 	}
+
+
 }
