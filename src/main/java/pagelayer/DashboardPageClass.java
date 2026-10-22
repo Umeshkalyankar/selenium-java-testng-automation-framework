@@ -1,6 +1,7 @@
 package pagelayer;
 
 import org.openqa.selenium.By;
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -55,28 +56,60 @@ public class DashboardPageClass {
 		logoutButton.click();
 	}
 
+	
 	public boolean isDashboardDisplayed() {
 
-	    System.out.println("========== DASHBOARD DIAGNOSTICS ==========");
+	    System.out.println("========== NAVIGATION VISIBILITY ==========");
+
+	    JavascriptExecutor js = (JavascriptExecutor) driver;
+
+	    String[] selectors = {
+	        "[data-testid='nav-logout']",
+	        "[data-testid='nav-send']",
+	        "[data-testid='nav-receive']",
+	        "[data-testid='nav-pay-qr']",
+	        "[data-testid='nav-transactions']"
+	    };
+
+	    for (String selector : selectors) {
+
+	        for (WebElement element : driver.findElements(By.cssSelector(selector))) {
+
+	            System.out.println("Element: " + selector);
+	            System.out.println("Displayed: " + element.isDisplayed());
+	            System.out.println("Enabled: " + element.isEnabled());
+
+	            System.out.println("CSS display: "
+	                    + js.executeScript(
+	                            "return window.getComputedStyle(arguments[0]).display;",
+	                            element));
+
+	            System.out.println("CSS visibility: "
+	                    + js.executeScript(
+	                            "return window.getComputedStyle(arguments[0]).visibility;",
+	                            element));
+
+	            System.out.println("CSS opacity: "
+	                    + js.executeScript(
+	                            "return window.getComputedStyle(arguments[0]).opacity;",
+	                            element));
+
+	            System.out.println("--------------------------------------------");
+	        }
+	    }
+
+	    System.out.println("Viewport width: "
+	            + js.executeScript("return window.innerWidth;"));
+
+	    System.out.println("Viewport height: "
+	            + js.executeScript("return window.innerHeight;"));
+
 	    System.out.println("Current URL: " + driver.getCurrentUrl());
 	    System.out.println("Page title: " + driver.getTitle());
-
-	    System.out.println("Logout button count: "
-	            + driver.findElements(By.cssSelector("[data-testid='nav-logout']")).size());
-
-	    System.out.println("Send Money link count: "
-	            + driver.findElements(By.cssSelector("[data-testid='nav-send']")).size());
-
-	    System.out.println("Receive Money link count: "
-	            + driver.findElements(By.cssSelector("[data-testid='nav-receive']")).size());
-
-	    System.out.println("Dashboard body text:");
-	    System.out.println(driver.findElement(By.tagName("body")).getText());
 
 	    System.out.println("============================================");
 
 	    return driver.getCurrentUrl().contains("/dashboard");
 	}
-
-
+	
 }
