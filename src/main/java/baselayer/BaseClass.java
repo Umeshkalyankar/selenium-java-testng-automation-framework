@@ -4,7 +4,6 @@ import java.time.Duration;
 
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
-import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.edge.EdgeDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.testng.annotations.AfterMethod;
@@ -48,16 +47,7 @@ public class BaseClass {
 
 		if (browserName.equalsIgnoreCase("Chrome")) {
 
-			ChromeOptions options = new ChromeOptions();
-
-			if (System.getenv("GITHUB_ACTIONS") != null) {
-				options.addArguments("--headless=new");
-				options.addArguments("--no-sandbox");
-				options.addArguments("--disable-dev-shm-usage");
-				options.addArguments("--window-size=1920,1080");
-			}
-
-			driver = new ChromeDriver(options);
+			driver = new ChromeDriver();
 
 		} else if (browserName.equalsIgnoreCase("Firefox")) {
 
@@ -106,15 +96,11 @@ public class BaseClass {
 	public void teardown() {
 
 		WebDriver driver = getDriver();
-
 		try {
-
 			if (driver != null) {
 				driver.quit();
 			}
-
 		} finally {
-
 			driverThread.remove();
 		}
 	}

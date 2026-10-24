@@ -18,6 +18,9 @@ public class TransactionsPageClass {
 	// Web Elements
 	@FindBy(xpath = "//input[@data-testid='tx-search']")
 	private WebElement searchPartyTextBox;
+	
+	@FindBy(xpath="//button[@data-testid='account-reset']")
+	private WebElement resetAccountButton;
 
 	// Actions
 
@@ -27,6 +30,10 @@ public class TransactionsPageClass {
 
 	public void enterPartyName(String partyName) {
 		searchPartyTextBox.sendKeys(partyName);
+	}
+	
+	public void resetAccount() {
+		resetAccountButton.click();
 	}
 
 }
